@@ -7,7 +7,7 @@ interface btnProps{
 
 const Button = ({btnText,btnSX}:btnProps) => {
   return (
-    <button style={{backgroundColor:"red",...btnSX}}>{btnText}</button>
+    <button style={{...btnSX}}>{btnText}</button>
   )
 }
 
