@@ -1,11 +1,12 @@
-import Homepage from "./pages/homepage"
+import Homepage from "./pages/homepage";
+import "./App.css";
 
 const App = () => {
   return (
     <>
-    <Homepage/>
+      <Homepage />
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;

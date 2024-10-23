@@ -1,0 +1,21 @@
+.homepage {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(17, 17, 101);
+}
+.homepage__main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto 20rem;
+  gap: 1.2rem;
+}
+.main-container__left-container {
+  display: flex;
+  flex-direction: column;
+}
+.left-container__heading {
+  font-size: 3rem;
+}
