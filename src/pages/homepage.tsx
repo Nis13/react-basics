@@ -21,16 +21,15 @@ const Homepage = () => {
             <Button btnText="LEARN MORE" />
           </div>
         </div>
-      
 
-      <div className="main-container__right-container">
-        <Image
-          src="src/assets/vase.jpg"
-          alt="a vase"
-          imgSX={{ height: "30rem", width: "25rem", borderRadius: "5%" }}
-        />
+        <div className="main-container__right-container">
+          <Image
+            src="src/assets/vase.jpg"
+            alt="a vase"
+            imgSX={{ height: "30rem", width: "25rem", borderRadius: "5%" }}
+          />
+        </div>
       </div>
-    </div>
     </div>
   );
 };

@@ -11,7 +11,7 @@ const Button = ({ btnText, btnSX }: btnProps) => {
     padding: "0.7rem 2.5rem",
     borderRadius: "2.5rem",
     backgroungColor: "grey",
-    border:"none"
+    border: "none",
   };
   return <button style={{ ...DEFAULT_BTN_STYLES, ...btnSX }}>{btnText}</button>;
 };

@@ -1,3 +1,11 @@
+.navbar {
+  display: flex;
+  justify-content: space-around;
+}
+.content {
+  margin-top: 5rem;
+}
+
 .homepage {
   height: 100vh;
   display: flex;
