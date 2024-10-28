@@ -5,7 +5,6 @@ import Aboutpage from "../pages/aboutpage";
 import Blogpage from "../pages/blogpage";
 import Contactpage from "../pages/contactpage";
 import Notfoundpage from "../pages/notfoundpage";
-import Userpage from "../pages/userpage";
 import Productpage from "../pages/productpage";
 
 const AppRoutes = () => {

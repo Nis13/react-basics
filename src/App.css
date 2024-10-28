@@ -27,3 +27,21 @@
 .left-container__heading {
   font-size: 3rem;
 }
+
+/* table */
+table {
+  width: 50%;
+  margin: auto;
+  border: 2px solid;
+}
+
+th {
+  padding: 1rem;
+  border: 2px solid;
+  background-color: black;
+  color: white;
+}
+td {
+  padding: 1rem;
+  border: 2px solid;
+}

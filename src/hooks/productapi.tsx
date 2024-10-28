@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-export const useProductApi = (page: number) => {
+export const useProductApi = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [data, setData] = useState([]);
@@ -18,7 +18,7 @@ export const useProductApi = (page: number) => {
       }
     };
     fetchPost();
-  }, [page]);
+  }, []);
 
-  return { isLoading, data, error, pageno: page };
+  return { isLoading, data, error };
 };

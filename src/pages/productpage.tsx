@@ -1,11 +1,11 @@
-import { Box } from "@mui/material";
+import { Box, Button, Container, Paper, TableContainer } from "@mui/material";
 import { useMemo } from "react";
 import { usePagination, useSortBy, useTable } from "react-table";
 import { useProductApi } from "../hooks/productapi";
 
 const Productpage = () => {
-  const { isLoading, data, error, pageno } = useProductApi(0);
-  console.log(isLoading, data, error, pageno);
+  const { isLoading, data, error } = useProductApi();
+  console.log(isLoading, data, error);
   const columns = useMemo(
     () => [
       { Header: "ID", accessor: "id" },
@@ -41,14 +41,20 @@ const Productpage = () => {
 
   if (error) return <div>Error</div>;
   return (
-    <div className="main-container">
-      <table {...getTableProps()}>
+    <TableContainer component={Paper}>
+      <table className="table" {...getTableProps()}>
         <thead>
           {headerGroups.map((hg) => (
             <tr {...hg.getHeaderGroupProps()}>
               {hg.headers.map((column) => (
-                <th {...column.getHeaderProps(column.getSortByToggleProps)}>
+                <th
+                  className="table-header"
+                  {...column.getHeaderProps(column.getSortByToggleProps)}
+                >
                   {column.render("Header")}
+                  {column.isSorted && (
+                    <span>{column.isSortedDesc ? " ⬆️ " : " ⬇️ "}</span>
+                  )}
                 </th>
               ))}
             </tr>
@@ -67,15 +73,23 @@ const Productpage = () => {
           })}
         </tbody>
       </table>
-      <Box mt={2}>
-        <button disabled={!canPreviousPage} onClick={previousPage}>
+      <Container>
+        <Button
+          disabled={!canPreviousPage}
+          onClick={previousPage}
+          sx={{ color: "black" }}
+        >
           Prev
-        </button>
-        <button disabled={!canNextPage} onClick={nextPage}>
+        </Button>
+        <Button
+          disabled={!canNextPage}
+          onClick={nextPage}
+          sx={{ color: "black" }}
+        >
           Next
-        </button>
-      </Box>
-    </div>
+        </Button>
+      </Container>
+    </TableContainer>
   );
 };
 
