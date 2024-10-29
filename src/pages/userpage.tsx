@@ -1,18 +1,26 @@
 import React, { useState } from "react";
 import { PostUser } from "../hooks/userapi";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
-import Select from "react-select";
+import Select, { SingleValue } from "react-select";
 
 const Userpage = () => {
+  const options = [
+    { value: "female", label: "Female" },
+    { value: "male", label: "Male" },
+    { value: "other", label: "Other" },
+  ];
   const [data, setData] = useState({
     name: "",
     address: "",
     contact: 0,
     email: "",
+    gender: options[0].value,
   });
   const [responseStatus, setResponseStatus] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setData({
       ...data,
@@ -20,21 +28,26 @@ const Userpage = () => {
     });
   };
 
+  const handleSelectChange = (
+    gender: SingleValue<{
+      value: string;
+      label: string;
+    }>
+  ) => {
+    console.log(gender);
+    setData({
+      ...data,
+      gender: gender!.value,
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(data);
     const result = await PostUser(data);
     setResponseStatus(result);
   };
-  // const options = [
-  //   { value: "female", label: "Female" },
-  //   { value: "male", label: "Male" },
-  //   { value: "other", label: "Other" },
-  // ];
-  const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
+
   return (
     <Container>
       <Typography variant="h3">Login Account</Typography>
@@ -81,12 +94,11 @@ const Userpage = () => {
           />
 
           <Select
-            className="basic-single"
-            classNamePrefix="select"
             options={options}
             defaultValue={options[0]}
             name="gender"
             isSearchable={false}
+            onChange={handleSelectChange}
           />
           <Box>
             <Button

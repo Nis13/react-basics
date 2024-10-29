@@ -11,7 +11,6 @@ export const useProductApi = () => {
       try {
         const response = await axios.get(`https://dummyjson.com/products`);
         setData(response.data.products);
-        console.log("called the api");
       } catch (error) {
         if (error instanceof Error) {
           setError(() => error.message);
