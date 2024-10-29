@@ -1,19 +1,28 @@
 import { Box, Card, CardContent, Typography } from "@mui/material";
 import { useBlogApi } from "../hooks/blogapi";
 
+interface IPost {
+  title: string;
+  body: string;
+  id: string;
+}
+
 const Blogpage = () => {
   const { isLoading, data, error } = useBlogApi();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Box>Loading...</Box>;
 
-  if (!data) return <div>Data not found.</div>;
+  if (!data) return <Box>Data not found.</Box>;
 
-  if (error) return <div>Error</div>;
+  if (error) return <Box>Error</Box>;
   return (
     <Box sx={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
-      {data.map((post) => {
+      {data.map((post: IPost) => {
         return (
-          <Card sx={{ width: "220px", backgroundColor: "primary" }}>
+          <Card
+            sx={{ width: "220px", backgroundColor: "primary" }}
+            key={post.id}
+          >
             <CardContent>
               <Typography
                 gutterBottom

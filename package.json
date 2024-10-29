@@ -15,15 +15,18 @@
     "@mui/icons-material": "^6.1.5",
     "@mui/material": "^6.1.5",
     "axios": "^1.7.7",
+    "formik": "^2.4.6",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-table": "^7.8.0"
+    "react-select": "^5.8.2",
+    "react-table": "^7.8.0",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.1",
-    "@types/react-table": "^7.7.20",
+    "@types/react-table": "^7.0.14",
     "@vitejs/plugin-react": "^4.3.3",
     "eslint": "^9.13.0",
     "eslint-plugin-react-hooks": "^5.0.0",

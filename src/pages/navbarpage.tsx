@@ -9,6 +9,7 @@ const Navbarpage = () => {
     { name: "Blog", link: "/blog" },
     { name: "Contact", link: "/contact" },
     { name: "Product", link: "/product" },
+    { name: "User", link: "/user" },
   ];
 
   return (
