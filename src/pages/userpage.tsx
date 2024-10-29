@@ -49,7 +49,6 @@ const Userpage = () => {
             const result = await PostUser(values);
             setResponseStatus(result);
             resetForm();
-            GetUserpage();
           }}
         >
           {(props) => {
