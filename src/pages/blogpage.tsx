@@ -3,7 +3,6 @@ import { useBlogApi } from "../hooks/blogapi";
 
 const Blogpage = () => {
   const { isLoading, data, error } = useBlogApi();
-  console.log(isLoading, data, error);
 
   if (isLoading) return <div>Loading...</div>;
 

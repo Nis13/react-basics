@@ -1,11 +1,10 @@
-import { Box, Button, Container, Paper, TableContainer } from "@mui/material";
+import { Button, Container, Paper, TableContainer } from "@mui/material";
 import { useMemo } from "react";
 import { usePagination, useSortBy, useTable } from "react-table";
 import { useProductApi } from "../hooks/productapi";
 
 const Productpage = () => {
   const { isLoading, data, error } = useProductApi();
-  console.log(isLoading, data, error);
   const columns = useMemo(
     () => [
       { Header: "ID", accessor: "id" },
