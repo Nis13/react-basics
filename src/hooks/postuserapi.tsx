@@ -1,11 +1,5 @@
 import axios from "axios";
-interface IUserData {
-  name: string;
-  address: string;
-  contact: number;
-  email: string;
-  gender: string;
-}
+import { IUserData } from "../interfaces/user.interface";
 
 export const PostUser = async (userData: IUserData) => {
   try {
@@ -13,7 +7,9 @@ export const PostUser = async (userData: IUserData) => {
       "https://671b71a32c842d92c37ff31c.mockapi.io/learnApi/users",
       userData
     );
-    return response.status === 201 ? "Login successful!" : "Login failed.";
+    return response.status === 201
+      ? "Registraion successful!"
+      : "Registration failed.";
   } catch (error) {
     return `An error occurred ${error}`;
   }

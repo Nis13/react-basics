@@ -10,11 +10,11 @@ interface IPost {
 const Blogpage = () => {
   const { isLoading, data, error } = useBlogApi();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Box>Loading...</Box>;
 
-  if (!data) return <div>Data not found.</div>;
+  if (!data) return <Box>Data not found.</Box>;
 
-  if (error) return <div>Error</div>;
+  if (error) return <Box>Error</Box>;
   return (
     <Box sx={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
       {data.map((post: IPost) => {

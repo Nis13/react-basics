@@ -1,4 +1,4 @@
-import { Button, Container, Paper, TableContainer } from "@mui/material";
+import { Box, Button, Container, Paper, TableContainer } from "@mui/material";
 import { useMemo } from "react";
 import {
   Column,
@@ -57,11 +57,11 @@ const Productpage: React.FC = () => {
     canPreviousPage,
     canNextPage,
   } = tableInstance;
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Box>Loading...</Box>;
 
-  if (!data) return <div>Data not found.</div>;
+  if (!data) return <Box>Data not found.</Box>;
 
-  if (error) return <div>Error</div>;
+  if (error) return <Box>Error</Box>;
   return (
     <TableContainer component={Paper}>
       <table className="table" {...getTableProps()}>
@@ -73,9 +73,7 @@ const Productpage: React.FC = () => {
             >
               {hg.headers.map((column) => (
                 <th
-                  {...column.getHeaderProps(
-                    (column as any).getSortByToggleProps()
-                  )}
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
                   key={column.getHeaderProps().key}
                 >
                   {column.render("Header")}
