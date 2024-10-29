@@ -5,6 +5,7 @@ import Aboutpage from "../pages/aboutpage";
 import Blogpage from "../pages/blogpage";
 import Contactpage from "../pages/contactpage";
 import Notfoundpage from "../pages/notfoundpage";
+import Productpage from "../pages/productpage";
 
 const AppRoutes = () => {
   const routes = [
@@ -12,6 +13,7 @@ const AppRoutes = () => {
     { id: 2, path: "about", element: <Aboutpage /> },
     { id: 3, path: "blog", element: <Blogpage /> },
     { id: 4, path: "contact", element: <Contactpage /> },
+    { id: 5, path: "product", element: <Productpage /> },
   ];
   return (
     <Routes>
