@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { PostUser } from "../hooks/userapi";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
-import Select, { SingleValue } from "react-select";
+import Select from "react-select";
+import { useFormik } from "formik";
 
 const Userpage = () => {
   const options = [
@@ -9,49 +10,26 @@ const Userpage = () => {
     { value: "male", label: "Male" },
     { value: "other", label: "Other" },
   ];
-  const [data, setData] = useState({
-    name: "",
-    address: "",
-    contact: 0,
-    email: "",
-    gender: options[0].value,
-  });
   const [responseStatus, setResponseStatus] = useState<string | null>(null);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setData({
-      ...data,
-      [name]: value,
-    });
-  };
-
-  const handleSelectChange = (
-    gender: SingleValue<{
-      value: string;
-      label: string;
-    }>
-  ) => {
-    console.log(gender);
-    setData({
-      ...data,
-      gender: gender!.value,
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(data);
-    const result = await PostUser(data);
-    setResponseStatus(result);
-  };
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      address: "",
+      contact: 0,
+      email: "",
+      gender: options[0].value,
+    },
+    onSubmit: async (values) => {
+      const result = await PostUser(values);
+      setResponseStatus(result);
+    },
+  });
 
   return (
     <Container>
       <Typography variant="h3">Login Account</Typography>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={formik.handleSubmit}>
         <Box
           sx={{
             display: "flex",
@@ -64,32 +42,32 @@ const Userpage = () => {
             label="name"
             type="text"
             name="name"
-            value={data.name}
-            onChange={handleChange}
+            value={formik.values.name}
+            onChange={formik.handleChange}
             required
           />
           <TextField
             label="email"
             type="email"
             name="email"
-            value={data.email}
-            onChange={handleChange}
+            value={formik.values.email}
+            onChange={formik.handleChange}
             required
           />
           <TextField
             label="address"
             type="text"
             name="address"
-            value={data.address}
-            onChange={handleChange}
+            value={formik.values.address}
+            onChange={formik.handleChange}
             required
           />
           <TextField
             label="contact"
             type="number"
             name="contact"
-            value={data.contact}
-            onChange={handleChange}
+            value={formik.values.contact}
+            onChange={formik.handleChange}
             required
           />
 
@@ -98,7 +76,7 @@ const Userpage = () => {
             defaultValue={options[0]}
             name="gender"
             isSearchable={false}
-            onChange={handleSelectChange}
+            onChange={(option) => formik.setFieldValue("gender", option?.value)}
           />
           <Box>
             <Button
