@@ -1,14 +1,6 @@
 import { Box, Button, Container, Paper, TableContainer } from "@mui/material";
 import { useMemo } from "react";
-import {
-  Column,
-  TableInstance,
-  usePagination,
-  UsePaginationInstanceProps,
-  useSortBy,
-  UseSortByInstanceProps,
-  useTable,
-} from "react-table";
+import { Column, usePagination, useSortBy, useTable } from "react-table";
 import { useProductApi } from "../hooks/productapi";
 
 interface Product {
@@ -18,10 +10,6 @@ interface Product {
   price: number;
   rating: number;
 }
-
-type ExtendedTableInstance<T extends object> = TableInstance<T> &
-  UsePaginationInstanceProps<T> &
-  UseSortByInstanceProps<T>;
 
 const Productpage: React.FC = () => {
   const { isLoading, data, error } = useProductApi();
@@ -37,14 +25,14 @@ const Productpage: React.FC = () => {
     []
   );
 
-  const tableInstance: ExtendedTableInstance<Product> = useTable<Product>(
+  const tableInstance = useTable<Product>(
     {
       columns,
       data: memoizedData,
     },
     useSortBy,
     usePagination
-  ) as ExtendedTableInstance<Product>;
+  );
 
   const {
     getTableProps,
