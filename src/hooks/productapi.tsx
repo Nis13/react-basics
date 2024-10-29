@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 export const useProductApi = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -11,8 +11,11 @@ export const useProductApi = () => {
       try {
         const response = await axios.get(`https://dummyjson.com/products`);
         setData(response.data.products);
+        console.log("called the api");
       } catch (error) {
-        setError(error.message);
+        if (error instanceof Error) {
+          setError(() => error.message);
+        }
       } finally {
         setIsLoading(false);
       }

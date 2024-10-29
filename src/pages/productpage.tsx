@@ -1,12 +1,32 @@
-import { Box, Button, Container, Paper, TableContainer } from "@mui/material";
+import { Button, Container, Paper, TableContainer } from "@mui/material";
 import { useMemo } from "react";
-import { usePagination, useSortBy, useTable } from "react-table";
+import {
+  Column,
+  TableInstance,
+  usePagination,
+  UsePaginationInstanceProps,
+  useSortBy,
+  UseSortByInstanceProps,
+  useTable,
+} from "react-table";
 import { useProductApi } from "../hooks/productapi";
 
-const Productpage = () => {
+interface Product {
+  id: number;
+  title: string;
+  category: string;
+  price: number;
+  rating: number;
+}
+
+type ExtendedTableInstance<T extends object> = TableInstance<T> &
+  UsePaginationInstanceProps<T> &
+  UseSortByInstanceProps<T>;
+
+const Productpage: React.FC = () => {
   const { isLoading, data, error } = useProductApi();
-  console.log(isLoading, data, error);
-  const columns = useMemo(
+  const memoizedData = useMemo(() => data, [data]);
+  const columns: Column<Product>[] = useMemo(
     () => [
       { Header: "ID", accessor: "id" },
       { Header: "Title", accessor: "title" },
@@ -16,25 +36,27 @@ const Productpage = () => {
     ],
     []
   );
+
+  const tableInstance: ExtendedTableInstance<Product> = useTable<Product>(
+    {
+      columns,
+      data: memoizedData,
+    },
+    useSortBy,
+    usePagination
+  ) as ExtendedTableInstance<Product>;
+
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    page,
     prepareRow,
+    page,
     nextPage,
     previousPage,
     canPreviousPage,
     canNextPage,
-  } = useTable(
-    {
-      columns,
-      data,
-    },
-    useSortBy,
-    usePagination
-  );
-
+  } = tableInstance;
   if (isLoading) return <div>Loading...</div>;
 
   if (!data) return <div>Data not found.</div>;
@@ -45,11 +67,16 @@ const Productpage = () => {
       <table className="table" {...getTableProps()}>
         <thead>
           {headerGroups.map((hg) => (
-            <tr {...hg.getHeaderGroupProps()}>
+            <tr
+              {...hg.getHeaderGroupProps()}
+              key={hg.getHeaderGroupProps().key}
+            >
               {hg.headers.map((column) => (
                 <th
-                  className="table-header"
-                  {...column.getHeaderProps(column.getSortByToggleProps)}
+                  {...column.getHeaderProps(
+                    (column as any).getSortByToggleProps()
+                  )}
+                  key={column.getHeaderProps().key}
                 >
                   {column.render("Header")}
                   {column.isSorted && (
@@ -75,17 +102,13 @@ const Productpage = () => {
       </table>
       <Container>
         <Button
+          variant="contained"
           disabled={!canPreviousPage}
           onClick={previousPage}
-          sx={{ color: "black" }}
         >
           Prev
         </Button>
-        <Button
-          disabled={!canNextPage}
-          onClick={nextPage}
-          sx={{ color: "black" }}
-        >
+        <Button variant="contained" disabled={!canNextPage} onClick={nextPage}>
           Next
         </Button>
       </Container>
