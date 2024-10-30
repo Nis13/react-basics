@@ -14,11 +14,9 @@ const LoginPage = () => {
           password: "",
           email: "",
         }}
-        onSubmit={async (values, { resetForm }) => {
+        onSubmit={async (values) => {
           const result = await LoginApi(values);
-          console.log(result);
           setResponseStatus(result);
-          resetForm();
         }}
       >
         {(props) => {

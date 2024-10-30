@@ -7,10 +7,17 @@ import SignupPage from "../pages/signuppage";
 import ProtectedRoute from "./protectedroute";
 import LoginPage from "../pages/loginpage";
 
+const isAuthenticated = () => {
+  return false;
+};
+
+const unprotectedRoutes = [
+  { id: 1, path: "/", element: <Homepage /> },
+  { id: 7, path: "signup", element: <SignupPage /> },
+  { id: 8, path: "login", element: <LoginPage /> },
+];
+const protectedRoutes = [{ id: 3, path: "blog", element: <Blogpage /> }];
 const AppRoutes = () => {
-  const isAuthenticated = () => {
-    return false;
-  };
   // const routes = [
   //   { id: 1, path: "/", element: <Homepage /> },
   //   { id: 2, path: "about", element: <Aboutpage /> },
@@ -20,12 +27,6 @@ const AppRoutes = () => {
   //   { id: 6, path: "user", element: <Userpage /> },
   //   { id: 7, path: "signup", element: <SignupPage /> },
   // ];
-  const unprotectedRoutes = [
-    { id: 1, path: "/", element: <Homepage /> },
-    { id: 7, path: "signup", element: <SignupPage /> },
-    { id: 8, path: "login", element: <LoginPage /> },
-  ];
-  const protectedRoutes = [{ id: 3, path: "blog", element: <Blogpage /> }];
 
   return (
     <Routes>

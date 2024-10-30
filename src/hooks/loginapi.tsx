@@ -6,7 +6,6 @@ interface ILogin {
 }
 const LoginApi = async (loginData: ILogin) => {
   try {
-    console.log("loggining in");
     const response = await axios.post(
       "http://localhost:3000/auth/login",
       loginData
@@ -17,8 +16,7 @@ const LoginApi = async (loginData: ILogin) => {
     if (axios.isAxiosError(error) && error.response) {
       return `${error.response.data.message}`;
     } else {
-      console.error("Error:", error);
-      return "An unexpected error occurred";
+      return `An unexpected error occurred: ${error}`;
     }
   }
 };
