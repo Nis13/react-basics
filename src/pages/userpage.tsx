@@ -5,8 +5,10 @@ import Select from "react-select";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import GetUserpage from "./getuserpage";
+import GetUserApi from "../hooks/getuserapi";
 
 const Userpage = () => {
+  const { fetchUser } = GetUserApi();
   const options = [
     { value: "female", label: "Female" },
     { value: "male", label: "Male" },
@@ -21,15 +23,11 @@ const Userpage = () => {
       .email("should be in email format eg: abc@mail.com")
       .required("Email is Required"),
     gender: Yup.string(),
-    contact: Yup.number()
-      .positive()
-      .integer()
-      .test(
-        "len",
-        "Must be exactly 10 digits",
-        (val) => val?.toString().length === 10
-      )
-      .required("Required"),
+    contact: Yup.string()
+      .required("Required")
+      .matches(/^[0-9+]*$/, "Phone numbers can only contain numbers and +")
+      .min(10, "Phone number must be Minimum 10 Digits")
+      .max(10, "Phone number must be Maximum 10 Digits"),
   });
 
   return (
@@ -40,7 +38,7 @@ const Userpage = () => {
           initialValues={{
             name: "",
             address: "",
-            contact: 0,
+            contact: "",
             email: "",
             gender: options[0].value,
           }}
@@ -49,6 +47,7 @@ const Userpage = () => {
             const result = await PostUser(values);
             setResponseStatus(result);
             resetForm();
+            fetchUser();
           }}
         >
           {(props) => {

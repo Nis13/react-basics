@@ -1,17 +1,12 @@
 import { AppBar, Box, Toolbar, Button } from "@mui/material";
 import FitbitIcon from "@mui/icons-material/Fitbit";
 import { NavLink } from "react-router-dom";
+import { IPath } from "../interfaces/navbar.interface";
 
-const Navbarpage = () => {
-  const pages = [
-    { name: "Home", link: "/" },
-    { name: "About", link: "/about" },
-    { name: "Blog", link: "/blog" },
-    { name: "Contact", link: "/contact" },
-    { name: "Product", link: "/product" },
-    { name: "User", link: "/user" },
-  ];
-
+interface INavbarProps {
+  pages: IPath[];
+}
+const Navbarpage: React.FC<INavbarProps> = ({ pages }) => {
   return (
     <AppBar position="fixed" color="secondary">
       <Toolbar sx={{ gap: "3rem" }}>

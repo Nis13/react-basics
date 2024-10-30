@@ -1,7 +1,7 @@
 export interface IUserData {
   name: string;
   address: string;
-  contact: number;
+  contact: string;
   email: string;
   gender: string;
 }
