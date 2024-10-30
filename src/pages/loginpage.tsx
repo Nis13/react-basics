@@ -2,9 +2,11 @@ import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useState } from "react";
 import LoginApi from "../hooks/loginapi";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [responseStatus, setResponseStatus] = useState<string | null>(null);
+  const navigate = useNavigate();
   return (
     <Container>
       <Typography variant="h3">Register Account</Typography>
@@ -17,6 +19,7 @@ const LoginPage = () => {
         onSubmit={async (values) => {
           const result = await LoginApi(values);
           setResponseStatus(result);
+          if (result) navigate("/blog");
         }}
       >
         {(props) => {

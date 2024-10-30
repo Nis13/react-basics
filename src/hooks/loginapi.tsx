@@ -11,6 +11,7 @@ const LoginApi = async (loginData: ILogin) => {
       loginData
     );
     const accessToken = response.data.accessToken;
+    sessionStorage.setItem("accessToken", accessToken);
     return accessToken ? "Login Successful" : "Login Failed";
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {

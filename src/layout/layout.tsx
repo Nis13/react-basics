@@ -1,18 +1,34 @@
 import { IPath } from "../interfaces/navbar.interface";
 import Navbarpage from "../pages/navbarpage";
 import { Outlet } from "react-router-dom";
+import { useAuth } from "../store/authcontext";
 
 const Layout = () => {
+  const { isAuthenticated } = useAuth();
+  console.log(isAuthenticated);
   const pages: IPath[] = [
-    { name: "Home", link: "/" },
+    { name: "Home", link: "/", isVisible: true },
     // { name: "About", link: "/about" },
     // { name: "Blog", link: "/blog" },
     // { name: "Contact", link: "/contact" },
     // { name: "User", link: "/user" },
-    { name: "Product", link: "/product" },
-    { name: "signup", link: "signup" },
-    { name: "blogs", link: "blog" },
-    { name: "login", link: "login" },
+    {
+      name: "Product",
+      link: "product",
+      isVisible: isAuthenticated ? true : false,
+    },
+    {
+      name: "signup",
+      link: "signup",
+      isVisible: isAuthenticated ? false : true,
+    },
+    { name: "Blog", link: "blog", isVisible: isAuthenticated ? true : false },
+    { name: "login", link: "login", isVisible: isAuthenticated ? false : true },
+    {
+      name: "logout",
+      link: "logout",
+      isVisible: isAuthenticated ? true : false,
+    },
   ];
   return (
     <>

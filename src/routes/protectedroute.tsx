@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
+import { useAuth } from "../store/authcontext";
 
-const ProtectedRoute: React.FC<{ isAuthenticated: boolean }> = ({
-  isAuthenticated,
-}) => {
+const ProtectedRoute = () => {
+  const { isAuthenticated, token } = useAuth();
   if (isAuthenticated === false) {
     return <Navigate to="/" replace={true} />;
   }
