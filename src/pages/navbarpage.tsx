@@ -2,13 +2,14 @@ import { AppBar, Box, Toolbar, Button } from "@mui/material";
 import FitbitIcon from "@mui/icons-material/Fitbit";
 import { NavLink } from "react-router-dom";
 import { IPath } from "../interfaces/navbar.interface";
+import { useAuth } from "../store/authcontext";
 
 interface INavbarProps {
   pages: IPath[];
 }
 
 const Navbarpage: React.FC<INavbarProps> = ({ pages }) => {
-  console.log(pages);
+  const { isAuthenticated, clearToken } = useAuth();
   return (
     <AppBar position="fixed" color="secondary">
       <Toolbar sx={{ gap: "3rem" }}>
@@ -29,6 +30,9 @@ const Navbarpage: React.FC<INavbarProps> = ({ pages }) => {
               </NavLink>
             ) : null
           )}
+          {isAuthenticated ? (
+            <Button onClick={clearToken}>Logout</Button>
+          ) : null}
         </Box>
       </Toolbar>
     </AppBar>

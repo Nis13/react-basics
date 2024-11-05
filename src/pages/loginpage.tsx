@@ -3,10 +3,12 @@ import { Form, Formik } from "formik";
 import { useState } from "react";
 import LoginApi from "../hooks/loginapi";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../store/authcontext";
 
 const LoginPage = () => {
   const [responseStatus, setResponseStatus] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { setToken } = useAuth();
   return (
     <Container>
       <Typography variant="h3">Register Account</Typography>
@@ -18,7 +20,8 @@ const LoginPage = () => {
         }}
         onSubmit={async (values) => {
           const result = await LoginApi(values);
-          setResponseStatus(result);
+          setResponseStatus(result ? "Login Successful" : "Login Failed");
+          setToken(result);
           if (result) navigate("/blog");
         }}
       >

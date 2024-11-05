@@ -5,7 +5,6 @@ import { useAuth } from "../store/authcontext";
 
 const Layout = () => {
   const { isAuthenticated } = useAuth();
-  console.log(isAuthenticated);
   const pages: IPath[] = [
     { name: "Home", link: "/", isVisible: true },
     // { name: "About", link: "/about" },
@@ -24,11 +23,6 @@ const Layout = () => {
     },
     { name: "Blog", link: "blog", isVisible: isAuthenticated ? true : false },
     { name: "login", link: "login", isVisible: isAuthenticated ? false : true },
-    {
-      name: "logout",
-      link: "logout",
-      isVisible: isAuthenticated ? true : false,
-    },
   ];
   return (
     <>

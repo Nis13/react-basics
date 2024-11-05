@@ -77,9 +77,11 @@ const Productpage: React.FC = () => {
           {page.map((row) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()}>
+              <tr {...row.getRowProps()} key={row.getRowProps().key}>
                 {row.cells.map((cell) => (
-                  <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                  <td {...cell.getCellProps()} key={cell.getCellProps().key}>
+                    {cell.render("Cell")}
+                  </td>
                 ))}
               </tr>
             );
