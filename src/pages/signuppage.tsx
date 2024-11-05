@@ -2,10 +2,12 @@ import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
-import { SignupApi } from "../hooks/signupapi";
+import { handleResponse, SignUpApi } from "../hooks/signupapi";
 import Select from "react-select";
+import { useMutation } from "react-query";
 
 const SignupPage = () => {
+  const { isLoading, isSuccess, isError, mutate } = useMutation(SignUpApi);
   const [responseStatus, setResponseStatus] = useState<string | null>(null);
 
   const options = [
@@ -37,7 +39,13 @@ const SignupPage = () => {
         }}
         validationSchema={signupSchema}
         onSubmit={async (values, { resetForm }) => {
-          const result = await SignupApi(values);
+          const result = handleResponse({
+            values,
+            isLoading,
+            isError,
+            isSuccess,
+            mutate,
+          });
           setResponseStatus(result);
           resetForm();
         }}
