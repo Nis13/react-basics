@@ -1,21 +1,18 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
+import { IAuthenticateContext } from "../interfaces/authenticate.interface";
 
-interface IAuthenticateContext {
-  isAuthenticated: boolean;
-  accessToken: string | null;
-  setToken: (accessToken: string) => void;
-  clearToken: () => void;
-}
-const defaultAuthContext: IAuthenticateContext = {
+export const AuthenticateContext = createContext<IAuthenticateContext>({
   isAuthenticated: false,
   accessToken: null,
   setToken: () => {},
   clearToken: () => {},
-};
+});
 
-export const AuthenticateContext = createContext<IAuthenticateContext>();
+interface AuthProviderProps {
+  children: ReactNode;
+}
 
-export const AuthContext = ({ children }) => {
+export const AuthContext: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [accessToken, setAccessToken] = useState<string | null>(null);
 
@@ -49,5 +46,3 @@ export const AuthContext = ({ children }) => {
     </AuthenticateContext.Provider>
   );
 };
-
-export const useAuth = () => useContext(AuthenticateContext);

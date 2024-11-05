@@ -47,62 +47,56 @@ const GetUserpage = () => {
   if (error) return <Box>Error</Box>;
 
   return (
-    <>
-      <TableContainer component={Paper}>
-        <table className="table" {...getTableProps()}>
-          <thead>
-            {headerGroups.map((hg) => (
-              <tr
-                {...hg.getHeaderGroupProps()}
-                key={hg.getHeaderGroupProps().key}
-              >
-                {hg.headers.map((column) => (
-                  <th
-                    {...column.getHeaderProps(column.getSortByToggleProps())}
-                    key={column.getHeaderProps().key}
-                  >
-                    {column.render("Header")}
-                    {column.isSorted && (
-                      <span>{column.isSortedDesc ? " ⬆️ " : " ⬇️ "}</span>
-                    )}
-                  </th>
+    <TableContainer component={Paper}>
+      <table className="table" {...getTableProps()}>
+        <thead>
+          {headerGroups.map((hg) => (
+            <tr
+              {...hg.getHeaderGroupProps()}
+              key={hg.getHeaderGroupProps().key}
+            >
+              {hg.headers.map((column) => (
+                <th
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
+                  key={column.getHeaderProps().key}
+                >
+                  {column.render("Header")}
+                  {column.isSorted && (
+                    <span>{column.isSortedDesc ? " ⬆️ " : " ⬇️ "}</span>
+                  )}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody {...getTableBodyProps()}>
+          {page.map((row) => {
+            prepareRow(row);
+            return (
+              <tr {...row.getRowProps()} key={row.getRowProps().key}>
+                {row.cells.map((cell) => (
+                  <td {...cell.getCellProps()} key={cell.getCellProps().key}>
+                    {cell.render("Cell")}
+                  </td>
                 ))}
               </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps()}>
-            {page.map((row) => {
-              prepareRow(row);
-              return (
-                <tr {...row.getRowProps()} key={row.getRowProps().key}>
-                  {row.cells.map((cell) => (
-                    <td {...cell.getCellProps()} key={cell.getCellProps().key}>
-                      {cell.render("Cell")}
-                    </td>
-                  ))}
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        <Container>
-          <Button
-            variant="contained"
-            disabled={!canPreviousPage}
-            onClick={previousPage}
-          >
-            Prev
-          </Button>
-          <Button
-            variant="contained"
-            disabled={!canNextPage}
-            onClick={nextPage}
-          >
-            Next
-          </Button>
-        </Container>
-      </TableContainer>
-    </>
+            );
+          })}
+        </tbody>
+      </table>
+      <Container>
+        <Button
+          variant="contained"
+          disabled={!canPreviousPage}
+          onClick={previousPage}
+        >
+          Prev
+        </Button>
+        <Button variant="contained" disabled={!canNextPage} onClick={nextPage}>
+          Next
+        </Button>
+      </Container>
+    </TableContainer>
   );
 };
 

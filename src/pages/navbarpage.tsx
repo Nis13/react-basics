@@ -2,7 +2,7 @@ import { AppBar, Box, Toolbar, Button } from "@mui/material";
 import FitbitIcon from "@mui/icons-material/Fitbit";
 import { NavLink } from "react-router-dom";
 import { IPath } from "../interfaces/navbar.interface";
-import { useAuth } from "../store/authcontext";
+import { useAuth } from "../utils/useAuth";
 
 interface INavbarProps {
   pages: IPath[];
