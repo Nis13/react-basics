@@ -11,7 +11,7 @@ const LoginPage = () => {
   const { setToken } = useAuth();
   return (
     <Container>
-      <Typography variant="h3">Register Account</Typography>
+      <Typography variant="h3">Login</Typography>
       <Formik
         initialValues={{
           name: "",

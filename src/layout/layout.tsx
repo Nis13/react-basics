@@ -19,6 +19,7 @@ const Layout = () => {
     },
     { name: "Blog", link: "blog", isVisible: !!isAuthenticated },
     { name: "login", link: "login", isVisible: !isAuthenticated },
+    { name: "user", link: "user", isVisible: !!isAuthenticated },
   ];
   return (
     <>

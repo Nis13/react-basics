@@ -8,6 +8,7 @@ import ProtectedRoute from "./protectedroute";
 import LoginPage from "../pages/loginpage";
 import Productpage from "../pages/productpage";
 import { AuthContext } from "../store/authcontext";
+import GetUserpage from "../pages/getuserpage";
 
 const unprotectedRoutes = [
   { id: 1, path: "/", element: <Homepage /> },
@@ -17,6 +18,7 @@ const unprotectedRoutes = [
 const protectedRoutes = [
   { id: 3, path: "blog", element: <Blogpage /> },
   { id: 5, path: "product", element: <Productpage /> },
+  { id: 6, path: "user", element: <GetUserpage /> },
 ];
 const AppRoutes = () => {
   // const routes = [

@@ -3,9 +3,16 @@ import { Form, Formik } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
 import { SignupApi } from "../hooks/signupapi";
+import Select from "react-select";
 
 const SignupPage = () => {
   const [responseStatus, setResponseStatus] = useState<string | null>(null);
+
+  const options = [
+    { value: "user", label: "User" },
+    { value: "admin", label: "Admin" },
+  ];
+
   const signupSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
     email: Yup.string()
@@ -20,12 +27,13 @@ const SignupPage = () => {
   });
   return (
     <Container>
-      <Typography variant="h3">Register Account</Typography>
+      <Typography variant="h3">Signup</Typography>
       <Formik
         initialValues={{
           name: "",
           password: "",
           email: "",
+          role: options[0].value,
         }}
         validationSchema={signupSchema}
         onSubmit={async (values, { resetForm }) => {
@@ -35,7 +43,14 @@ const SignupPage = () => {
         }}
       >
         {(props) => {
-          const { values, handleChange, errors, touched, isSubmitting } = props;
+          const {
+            values,
+            handleChange,
+            errors,
+            touched,
+            isSubmitting,
+            setFieldValue,
+          } = props;
           return (
             <Form>
               <Box
@@ -77,6 +92,17 @@ const SignupPage = () => {
                 />
                 {errors.password && touched.password ? (
                   <Box color={"red"}>{errors.password}</Box>
+                ) : null}
+
+                <Select
+                  options={options}
+                  name="role"
+                  defaultValue={options[0]}
+                  isSearchable={false}
+                  onChange={(option) => setFieldValue("role", option?.value)}
+                />
+                {errors.role && touched.role ? (
+                  <Box color={"red"}>{errors.role}</Box>
                 ) : null}
                 <Box>
                   <Button
