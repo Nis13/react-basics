@@ -1,8 +1,10 @@
-import axios from "axios";
+import api from "./api";
 
 export const useFetchUserApi = async () => {
-  const response = await axios.get(
-    `https://671b71a32c842d92c37ff31c.mockapi.io/learnApi/users`
-  );
-  return response.data;
+  try {
+    const response = await api.get("/user");
+    return response.data;
+  } catch (error) {
+    return (error as Error).message;
+  }
 };

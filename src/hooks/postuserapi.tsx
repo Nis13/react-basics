@@ -1,12 +1,9 @@
-import axios from "axios";
 import { IUserData } from "../interfaces/user.interface";
+import api from "../api/api";
 
 export const PostUser = async (userData: IUserData) => {
   try {
-    const response = await axios.post(
-      "https://671b71a32c842d92c37ff31c.mockapi.io/learnApi/users",
-      userData
-    );
+    const response = await api.post("auth/signup", userData);
     return response.status === 201
       ? "Registraion successful!"
       : "Registration failed.";

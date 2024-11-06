@@ -19,9 +19,8 @@ const LoginPage = () => {
           email: "",
         }}
         onSubmit={async (values) => {
-          const result = await LoginApi(values);
+          const result = await LoginApi(values, setToken);
           setResponseStatus(result ? "Login Successful" : "Login Failed");
-          setToken(result);
           if (result) navigate("/blog");
         }}
       >

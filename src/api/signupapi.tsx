@@ -1,12 +1,10 @@
 import axios from "axios";
 import { ISignup } from "../hooks/signupmutation";
+import api from "./api";
 
 export const useSignUpApi = async (userData: ISignup) => {
   try {
-    const response = await axios.post(
-      "http://localhost:3000/auth/signup",
-      userData
-    );
+    const response = await api.post("auth/signup", userData);
     if (response.status !== 201) {
       throw new Error("Network response was not ok");
     }
