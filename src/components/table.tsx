@@ -1,39 +1,22 @@
-import { Box, Button, Container, Paper, TableContainer } from "@mui/material";
-import { useMemo } from "react";
+import React from "react";
 import { Column, usePagination, useSortBy, useTable } from "react-table";
-import { useProductApi } from "../hooks/productapi";
+import { IGetUserData } from "../interfaces/user.interface";
+import { Button, Container, Paper, TableContainer } from "@mui/material";
 
-interface Product {
-  id: number;
-  title: string;
-  category: string;
-  price: number;
-  rating: number;
+export interface ITableProps {
+  columns: Column<IGetUserData>[];
+  data: IGetUserData[];
 }
 
-const Productpage: React.FC = () => {
-  const { isLoading, data, error } = useProductApi();
-  const memoizedData = useMemo(() => data, [data]);
-  const columns: Column<Product>[] = useMemo(
-    () => [
-      { Header: "ID", accessor: "id" },
-      { Header: "Title", accessor: "title" },
-      { Header: "Category", accessor: "category" },
-      { Header: "Price", accessor: "price" },
-      { Header: "Rating", accessor: "rating" },
-    ],
-    []
-  );
-
-  const tableInstance = useTable<Product>(
+const Table: React.FC<ITableProps> = ({ columns, data }) => {
+  const tableInstance = useTable(
     {
       columns,
-      data: memoizedData,
+      data,
     },
     useSortBy,
     usePagination
   );
-
   const {
     getTableProps,
     getTableBodyProps,
@@ -45,11 +28,7 @@ const Productpage: React.FC = () => {
     canPreviousPage,
     canNextPage,
   } = tableInstance;
-  if (isLoading) return <Box>Loading...</Box>;
 
-  if (!data) return <Box>Data not found.</Box>;
-
-  if (error) return <Box>Error</Box>;
   return (
     <TableContainer component={Paper}>
       <table className="table" {...getTableProps()}>
@@ -104,4 +83,4 @@ const Productpage: React.FC = () => {
   );
 };
 
-export default Productpage;
+export default Table;

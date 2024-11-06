@@ -1,19 +1,17 @@
 import axios from "axios";
 
-interface ISignup {
-  name: string;
+interface ILogin {
   email: string;
   password: string;
 }
-export const SignupApi = async (userData: ISignup) => {
+const useLoginApi = async (loginData: ILogin) => {
   try {
     const response = await axios.post(
-      "http://localhost:3000/auth/signup",
-      userData
+      "http://localhost:3000/auth/login",
+      loginData
     );
-    return response.status === 201
-      ? "Registraion successful!"
-      : "Registration failed.";
+    const accessToken = response.data.accessToken;
+    return accessToken;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       return `${error.response.data.message}`;
@@ -22,3 +20,5 @@ export const SignupApi = async (userData: ISignup) => {
     }
   }
 };
+
+export default useLoginApi;

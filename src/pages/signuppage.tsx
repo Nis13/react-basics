@@ -2,10 +2,19 @@ import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
-import { SignupApi } from "../hooks/signupapi";
+import { useSignupMutation } from "../hooks/signupmutation";
+import Select from "react-select";
 
 const SignupPage = () => {
   const [responseStatus, setResponseStatus] = useState<string | null>(null);
+  const { response, isLoading, isError, mutateAsync, error } =
+    useSignupMutation();
+
+  const options = [
+    { value: "user", label: "User" },
+    { value: "admin", label: "Admin" },
+  ];
+
   const signupSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
     email: Yup.string()
@@ -18,24 +27,37 @@ const SignupPage = () => {
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
       ),
   });
+
+  if (isLoading) return <Box>Loading...</Box>;
+
+  if (isError) return <Box>{error.message}</Box>;
+
   return (
     <Container>
-      <Typography variant="h3">Register Account</Typography>
+      <Typography variant="h3">Signup</Typography>
       <Formik
         initialValues={{
           name: "",
           password: "",
           email: "",
+          role: options[0].value,
         }}
         validationSchema={signupSchema}
         onSubmit={async (values, { resetForm }) => {
-          const result = await SignupApi(values);
-          setResponseStatus(result);
+          mutateAsync(values);
+          setResponseStatus(response);
           resetForm();
         }}
       >
         {(props) => {
-          const { values, handleChange, errors, touched, isSubmitting } = props;
+          const {
+            values,
+            handleChange,
+            errors,
+            touched,
+            isSubmitting,
+            setFieldValue,
+          } = props;
           return (
             <Form>
               <Box
@@ -77,6 +99,17 @@ const SignupPage = () => {
                 />
                 {errors.password && touched.password ? (
                   <Box color={"red"}>{errors.password}</Box>
+                ) : null}
+
+                <Select
+                  options={options}
+                  name="role"
+                  defaultValue={options[0]}
+                  isSearchable={false}
+                  onChange={(option) => setFieldValue("role", option?.value)}
+                />
+                {errors.role && touched.role ? (
+                  <Box color={"red"}>{errors.role}</Box>
                 ) : null}
                 <Box>
                   <Button
