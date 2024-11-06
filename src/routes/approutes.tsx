@@ -8,9 +8,10 @@ import ProtectedRoute from "./protectedroute";
 import LoginPage from "../pages/loginpage";
 import Productpage from "../pages/productpage";
 import { AuthContext } from "../store/authcontext";
+import Userpage from "../pages/userpage";
 import GetUserpage from "../pages/getuserpage";
 
-const unprotectedRoutes = [
+const publicRoutes = [
   { id: 1, path: "/", element: <Homepage /> },
   { id: 7, path: "signup", element: <SignupPage /> },
   { id: 8, path: "login", element: <LoginPage /> },
@@ -19,6 +20,7 @@ const protectedRoutes = [
   { id: 3, path: "blog", element: <Blogpage /> },
   { id: 5, path: "product", element: <Productpage /> },
   { id: 6, path: "user", element: <GetUserpage /> },
+  { id: 9, path: "addUser", element: <Userpage /> },
 ];
 const AppRoutes = () => {
   // const routes = [
@@ -34,7 +36,7 @@ const AppRoutes = () => {
     <AuthContext>
       <Routes>
         <Route path="/" element={<Layout />}>
-          {unprotectedRoutes.map((route) => (
+          {publicRoutes.map((route) => (
             <Route path={route.path} element={route.element} key={route.id} />
           ))}
           <Route path="/" element={<ProtectedRoute />}>

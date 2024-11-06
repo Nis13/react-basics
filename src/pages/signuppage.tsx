@@ -2,13 +2,13 @@ import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
-import { handleResponse, SignUpApi } from "../hooks/signupapi";
+import { useSignupMutation } from "../hooks/signupmutation";
 import Select from "react-select";
-import { useMutation } from "react-query";
 
 const SignupPage = () => {
-  const { isLoading, isSuccess, isError, mutate } = useMutation(SignUpApi);
   const [responseStatus, setResponseStatus] = useState<string | null>(null);
+  const { response, isLoading, isError, mutateAsync, error } =
+    useSignupMutation();
 
   const options = [
     { value: "user", label: "User" },
@@ -27,6 +27,11 @@ const SignupPage = () => {
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
       ),
   });
+
+  if (isLoading) return <Box>Loading...</Box>;
+
+  if (isError) return <Box>{error.message}</Box>;
+
   return (
     <Container>
       <Typography variant="h3">Signup</Typography>
@@ -39,14 +44,8 @@ const SignupPage = () => {
         }}
         validationSchema={signupSchema}
         onSubmit={async (values, { resetForm }) => {
-          const result = handleResponse({
-            values,
-            isLoading,
-            isError,
-            isSuccess,
-            mutate,
-          });
-          setResponseStatus(result);
+          mutateAsync(values);
+          setResponseStatus(response);
           resetForm();
         }}
       >

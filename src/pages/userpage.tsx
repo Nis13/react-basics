@@ -5,10 +5,14 @@ import Select from "react-select";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import GetUserpage from "./getuserpage";
-import GetUserApi from "../hooks/getuserapi";
+import { useMutation, useQueryClient } from "react-query";
 
 const Userpage = () => {
-  const { fetchUser } = GetUserApi();
+  // const { fetchUser } = GetUserApi();
+  const queryClient = useQueryClient();
+  const mutation = useMutation(PostUser, {
+    onSuccess: () => queryClient.invalidateQueries("user"),
+  });
   const options = [
     { value: "female", label: "Female" },
     { value: "male", label: "Male" },
@@ -44,10 +48,10 @@ const Userpage = () => {
           }}
           validationSchema={registerSchema}
           onSubmit={async (values, { resetForm }) => {
-            const result = await PostUser(values);
-            setResponseStatus(result);
+            // const result = await PostUser(values);
+            mutation.mutate(values);
+            // setResponseStatus(result);
             resetForm();
-            fetchUser();
           }}
         >
           {(props) => {

@@ -1,12 +1,13 @@
 import { useMemo } from "react";
-import GetUserApi from "../hooks/getuserapi";
 import { IGetUserData } from "../interfaces/user.interface";
 import { Column } from "react-table";
 import Table from "../components/table";
 import { Box } from "@mui/material";
+import { useQuery } from "react-query";
+import { useFetchUserApi } from "../api/fetchuserapi";
 
 const GetUserpage = () => {
-  const { isLoading, data, error } = GetUserApi();
+  const { isLoading, data, error } = useQuery("user", useFetchUserApi);
 
   const memoizedData = useMemo(() => data, [data]);
   const columns: Column<IGetUserData>[] = useMemo(
@@ -26,6 +27,7 @@ const GetUserpage = () => {
   if (!data) return <Box>Data not found.</Box>;
 
   if (error) return <Box>Error</Box>;
+
   return <Table columns={columns} data={memoizedData} />;
 };
 
