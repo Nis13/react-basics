@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import { useSignUpApi } from "../api/signupapi";
 export interface ISignup {
   name: string;
@@ -9,11 +9,15 @@ export interface ISignup {
 
 export const useSignupMutation = () => {
   const [response, setResponse] = useState<string | null>(null);
+  const queryClient = useQueryClient();
   const { isLoading, isSuccess, isError, mutateAsync, error } = useMutation(
     useSignUpApi,
     {
-      onSuccess: () => setResponse("User Added Successfully"),
-      onError: (error) => setResponse(error.message),
+      onSuccess: () => {
+        queryClient.invalidateQueries("user");
+        setResponse("User Added Successfully");
+      },
+      onError: (error: Error) => setResponse(error.message),
     }
   );
   return { response, isLoading, isSuccess, isError, error, mutateAsync };

@@ -1,67 +1,64 @@
-import { useState } from "react";
-import { PostUser } from "../hooks/postuserapi";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
-import Select from "react-select";
 import { Form, Formik } from "formik";
+import { useState } from "react";
 import * as Yup from "yup";
+import { useSignupMutation } from "../hooks/signupmutation";
+import Select from "react-select";
 import GetUserpage from "./getuserpage";
-import { useMutation, useQueryClient } from "react-query";
 
-const Userpage = () => {
-  // const { fetchUser } = GetUserApi();
-  const queryClient = useQueryClient();
-  const mutation = useMutation(PostUser, {
-    onSuccess: () => queryClient.invalidateQueries("user"),
-  });
-  const options = [
-    { value: "female", label: "Female" },
-    { value: "male", label: "Male" },
-    { value: "other", label: "Other" },
-  ];
+const UserPage = () => {
   const [responseStatus, setResponseStatus] = useState<string | null>(null);
+  const { response, isLoading, isError, mutateAsync, error } =
+    useSignupMutation();
 
-  const registerSchema = Yup.object().shape({
+  const options = [
+    { value: "user", label: "User" },
+    { value: "admin", label: "Admin" },
+  ];
+
+  const signupSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
-    address: Yup.string().required("Address is Required"),
     email: Yup.string()
       .email("should be in email format eg: abc@mail.com")
       .required("Email is Required"),
-    gender: Yup.string(),
-    contact: Yup.string()
-      .required("Required")
-      .matches(/^[0-9+]*$/, "Phone numbers can only contain numbers and +")
-      .min(10, "Phone number must be Minimum 10 Digits")
-      .max(10, "Phone number must be Maximum 10 Digits"),
+    password: Yup.string()
+      .required("Please Enter your password")
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])(?=.{8,})/,
+        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+      ),
   });
+
+  if (isLoading) return <Box>Loading...</Box>;
+
+  if (isError) return <Box>{(error as Error).message}</Box>;
 
   return (
     <>
       <Container>
-        <Typography variant="h3">Register Account</Typography>
+        <Typography variant="h3">Signup</Typography>
         <Formik
           initialValues={{
             name: "",
-            address: "",
-            contact: "",
+            password: "",
             email: "",
-            gender: options[0].value,
+            role: options[0].value,
           }}
-          validationSchema={registerSchema}
+          validationSchema={signupSchema}
           onSubmit={async (values, { resetForm }) => {
-            // const result = await PostUser(values);
-            mutation.mutate(values);
-            // setResponseStatus(result);
+            mutateAsync(values);
+            setResponseStatus(response);
             resetForm();
           }}
         >
           {(props) => {
             const {
               values,
-              setFieldValue,
               handleChange,
               errors,
               touched,
               isSubmitting,
+              setFieldValue,
             } = props;
             return (
               <Form>
@@ -96,38 +93,25 @@ const Userpage = () => {
                   ) : null}
 
                   <TextField
-                    label="address"
-                    type="text"
-                    name="address"
-                    value={values.address}
+                    label="password"
+                    type="password"
+                    name="password"
+                    value={values.password}
                     onChange={handleChange}
                   />
-                  {errors.address && touched.address ? (
-                    <Box color={"red"}>{errors.address}</Box>
-                  ) : null}
-
-                  <TextField
-                    label="contact"
-                    type="number"
-                    name="contact"
-                    value={values.contact}
-                    onChange={handleChange}
-                  />
-                  {errors.contact && touched.contact ? (
-                    <Box color={"red"}>{errors.contact}</Box>
+                  {errors.password && touched.password ? (
+                    <Box color={"red"}>{errors.password}</Box>
                   ) : null}
 
                   <Select
                     options={options}
+                    name="role"
                     defaultValue={options[0]}
-                    name="gender"
                     isSearchable={false}
-                    onChange={(option) =>
-                      setFieldValue("gender", option?.value)
-                    }
+                    onChange={(option) => setFieldValue("role", option?.value)}
                   />
-                  {errors.gender && touched.gender ? (
-                    <Box color={"red"}>{errors.gender}</Box>
+                  {errors.role && touched.role ? (
+                    <Box color={"red"}>{errors.role}</Box>
                   ) : null}
                   <Box>
                     <Button
@@ -136,7 +120,7 @@ const Userpage = () => {
                       sx={{ backgroundColor: "" }}
                       disabled={isSubmitting}
                     >
-                      Login
+                      Add User
                     </Button>
                   </Box>
                 </Box>
@@ -146,11 +130,11 @@ const Userpage = () => {
         </Formik>
         {responseStatus && <p>{responseStatus}</p>}
       </Container>
-      <Container>
+      <Box>
         <GetUserpage />
-      </Container>
+      </Box>
     </>
   );
 };
 
-export default Userpage;
+export default UserPage;

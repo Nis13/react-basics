@@ -1,22 +1,24 @@
 import axios from "axios";
+import api from "../api/api";
 
 interface ILogin {
   email: string;
   password: string;
 }
-const LoginApi = async (loginData: ILogin) => {
+const LoginApi = async (
+  loginData: ILogin,
+  setToken: (accessToken: string) => void
+) => {
   try {
-    const response = await axios.post(
-      "http://localhost:3000/auth/login",
-      loginData
-    );
+    const response = await api.post("auth/login", loginData);
     const accessToken = response.data.accessToken;
+    if (accessToken) setToken(accessToken);
     return accessToken;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
-      return `${error.response.data.message}`;
+      console.error(`${error.response.data.message}`);
     } else {
-      return `An unexpected error occurred: ${error}`;
+      console.error(`An unexpected error occurred: ${error}`);
     }
   }
 };
