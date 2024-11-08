@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
-import Button from "../components/button";
-import Image from "../components/image";
+import Button from "../../components/button";
+import Image from "../../components/image";
 
 const Homepage = () => {
   return (

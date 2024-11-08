@@ -1,9 +1,9 @@
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useState } from "react";
-import LoginApi from "../hooks/loginapi";
+import LoginApi from "../../hooks/loginapi";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../utils/useAuth";
+import { useAuth } from "../../utils/useAuth";
 
 const LoginPage = () => {
   const [responseStatus, setResponseStatus] = useState<string | null>(null);
@@ -14,7 +14,6 @@ const LoginPage = () => {
       <Typography variant="h3">Login</Typography>
       <Formik
         initialValues={{
-          name: "",
           password: "",
           email: "",
         }}

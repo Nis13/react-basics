@@ -1,20 +1,22 @@
 import { Route, Routes } from "react-router-dom";
 import Layout from "../layout/layout";
-import Homepage from "../pages/homepage";
+import Homepage from "../pages/home/homepage";
 import Blogpage from "../pages/blogpage";
 import Notfoundpage from "../pages/notfoundpage";
 import SignupPage from "../pages/signuppage";
 import ProtectedRoute from "./protectedroute";
-import LoginPage from "../pages/loginpage";
+import LoginPage from "../pages/login/loginpage";
 import Productpage from "../pages/productpage";
 import { AuthContext } from "../store/authcontext";
 import Userpage from "../pages/userpage";
 import GetUserpage from "../pages/getuserpage";
+import Counter from "../features/counter/counter";
 
 const publicRoutes = [
   { id: 1, path: "/", element: <Homepage /> },
   { id: 7, path: "signup", element: <SignupPage /> },
   { id: 8, path: "login", element: <LoginPage /> },
+  { id: 2, path: "counter", element: <Counter /> },
 ];
 const protectedRoutes = [
   { id: 3, path: "blog", element: <Blogpage /> },

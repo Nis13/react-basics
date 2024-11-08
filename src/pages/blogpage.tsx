@@ -17,6 +17,7 @@ const Blogpage = () => {
   if (error) return <Box>Error</Box>;
   return (
     <Box sx={{ display: "flex", flexWrap: "wrap", gap: "1rem" }}>
+      <h1>Blogs</h1>
       {data.map((post: IPost) => {
         return (
           <Card
